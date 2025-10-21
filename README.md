@@ -16,3 +16,9 @@ PaymentGateway.sln
 ```
 
 Feel free to change the structure of the solution, use a different test library etc.
+
+## Design considerations
+
+For a clean and maintainable approach, I used services to contain business logic keeping the controller thin and focused on HTTP concerns, a repository layer for data access - change in data store then won't affect business logic, interfaces for services + repositories which allows for DI overall helping keep code loosely coupled. 
+Validation was isolated also.
+
