@@ -4,20 +4,12 @@ using PaymentGateway.Api.Models.Responses;
 using PaymentGateway.Api.Services;
 using PaymentGateway.Api.Services.Interfaces;
 
-
 namespace PaymentGateway.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class PaymentsController(IPaymentsService paymentsService) : Controller
 {
-    // private readonly PaymentsRepository _paymentsRepository;
-
-    // public PaymentsController(PaymentsRepository paymentsRepository)
-    // {
-    //     _paymentsRepository = paymentsRepository;
-    // }
-
     /// <summary>
     /// Get a payment by ID
     /// </summary>
