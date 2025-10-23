@@ -75,7 +75,7 @@ paymentsRepository, IPaymentFieldsValidator validator, IBankService bankService,
             var paymentEntity = MapToPaymentEntity(request, paymentID);
 
             // call bank service to process payment
-            var bankResponse = await bankService.ProcessPayment(request, cancellationToken);
+            var bankResponse = await bankService.ProcessPayment(request, cancellationToken, logger);
             _logger.LogInformation("Bank response: Authorized={Authorized}", bankResponse);
 
             paymentEntity.Status = bankResponse.Authorized ? PaymentStatus.Authorized : PaymentStatus.Rejected;
