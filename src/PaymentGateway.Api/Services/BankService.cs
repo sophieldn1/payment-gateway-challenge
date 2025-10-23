@@ -9,25 +9,33 @@ public class BankService(HttpClient client): IBankService
 {
     private readonly HttpClient _httpClient = client;
 
-    public async Task<BankResponse> ProcessPayment(PostPaymentRequest payment, CancellationToken cancellationToken)
+    public async Task<BankResponse> ProcessPayment(PostPaymentRequest payment, CancellationToken cancellationToken, ILogger logger)
     {
-        var request = new PostPaymentRequest
+        try
         {
-            CardNumber = payment.CardNumber,
-            ExpiryDate = payment.ExpiryDate,
-            Currency = payment.Currency,
-            Amount = payment.Amount,
-            Cvv = payment.Cvv
-        };
+            var request = new PostPaymentRequest
+            {
+                CardNumber = payment.CardNumber,
+                ExpiryDate = payment.ExpiryDate,
+                Currency = payment.Currency,
+                Amount = payment.Amount,
+                Cvv = payment.Cvv
+            };
 
-        var response = await _httpClient.PostAsJsonAsync("payments", request, cancellationToken);
+            var response = await _httpClient.PostAsJsonAsync("payments", request, cancellationToken);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception($"Bank Service has errored: {response.StatusCode}");
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Bank Service has errored: {response.StatusCode}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<BankResponse>(cancellationToken: cancellationToken);
+            return result;
         }
-
-        var result = await response.Content.ReadFromJsonAsync<BankResponse>(cancellationToken: cancellationToken);
-        return result;
+        catch (Exception ex)
+        {
+            logger.LogInformation($"[BankService] Unexpected error: {ex.Message}");
+            return null;
+        }
     }
 }

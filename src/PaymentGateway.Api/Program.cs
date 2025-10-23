@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<IPaymentsService, PaymentsService>();
 builder.Services.AddScoped<IPaymentFieldsValidator, PaymentFieldsValidator>();
-builder.Services.AddSingleton<IPaymentsRepository, PaymentsRepository>();
+builder.Services.AddScoped<IPaymentsRepository, PaymentsRepository>();
 builder.Services.AddHttpClient<IBankService, BankService>(client =>
     {
         client.BaseAddress = new Uri("http://localhost:8080/");

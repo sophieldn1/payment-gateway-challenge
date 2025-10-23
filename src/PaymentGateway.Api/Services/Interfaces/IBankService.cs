@@ -5,5 +5,5 @@ namespace PaymentGateway.Api.Services.Interfaces;
 
 public interface IBankService
 {
-    Task<BankResponse> ProcessPayment(PostPaymentRequest request, CancellationToken cancellationToken);
+    Task<BankResponse> ProcessPayment(PostPaymentRequest request, CancellationToken cancellationToken, ILogger logger);
 }
